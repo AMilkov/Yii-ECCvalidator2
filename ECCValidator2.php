@@ -309,12 +309,29 @@ class ECCValidator2 extends CValidator {
         return false;
     }
     
+    /**
+     * Generate image tags from card number
+     * @param string $creditCardNumber
+     * @return string The generated img tag or empty string
+     */
     function getSmallImageTag($creditCardNumber) {
         $type = $this->cardType($creditCardNumber);
         if ($type === false) {
             return '';
         } 
         return "<img src='" . $this->assetsImages . self::$cardSmallImages[$type] . "' />";
+    }
+
+    /**
+     * Generate image tags from card type
+     * @param string $cardType
+     * @return string The generated img tag or empty string
+     */
+    function getSmallImageTagFromType($cardType) {
+        if (empty($cardType)) {
+            return '';
+        } 
+        return "<img src='" . $this->assetsImages . self::$cardSmallImages[$cardType] . "' />";
     }
 
 }
