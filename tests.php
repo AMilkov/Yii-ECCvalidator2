@@ -35,16 +35,26 @@ echo "Resulting CUSTOM matching pattern:\n" . $test->patterns[ECCValidator2::CUS
 $testCardNumbers = [
     '371449635311004' => ECCValidator2::AMERICAN_EXPRESS,
     '373731623811006' => ECCValidator2::AMERICAN_EXPRESS,
+    '378282246310005' => ECCValidator2::AMERICAN_EXPRESS,
+    '371449635398431' => ECCValidator2::AMERICAN_EXPRESS,
+    '378734493671000' => ECCValidator2::AMERICAN_EXPRESS,
     '4000000000000002' => ECCValidator2::VISA,
     '4444330322221117' => ECCValidator2::VISA,
     '4444333322221111' => ECCValidator2::VISA,
     '4012122222222226' => ECCValidator2::VISA,
+    '4111111111111111' => ECCValidator2::VISA,
+    '4012888888881881' => ECCValidator2::VISA,
+    '4222222222222' => ECCValidator2::VISA,
     '5499830000000015' => ECCValidator2::MASTERCARD,
     '5499830000000031' => ECCValidator2::MASTERCARD,
     '5499830000000049' => ECCValidator2::MASTERCARD,    
+    '5555555555554444' => ECCValidator2::MASTERCARD,    
+    '5105105105105100' => ECCValidator2::MASTERCARD,    
     'DC30125647382919' => ECCValidator2::DINERS_CLUB,
     'DC30129182736455' => ECCValidator2::DINERS_CLUB,
     'DC30121357924685' => ECCValidator2::DINERS_CLUB,
+    '30569309025904' => ECCValidator2::DINERS_CLUB,
+    '38520000023237' => ECCValidator2::DINERS_CLUB,
     
 ];
 
@@ -62,5 +72,3 @@ foreach ($testCardNumbers as $cardNumber => $cardType) {
     echo "$i.\t" . ($test->cardType($cardNumber) === $cardType ? "Passed: $cardType\n" : "Problem: $cardType\n");
     $i++;
 }
-
-//print_r($test);
