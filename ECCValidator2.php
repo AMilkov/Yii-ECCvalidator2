@@ -88,7 +88,7 @@ class ECCValidator2 extends CValidator {
 //        self::LASER,
     ];
 
-    public $cardSmallImages = [
+    public static $cardSmallImages = [
         self::MASTERCARD => 'master.png',
         self::VISA => 'visa.png',
         self::AMERICAN_EXPRESS => 'amex.png',
@@ -103,10 +103,6 @@ class ECCValidator2 extends CValidator {
 //        self::LASER,
     ];
 
-    function __construct() {
-        $this->buildAllPatern();
-    }
-    
     /**
      * 
      * @var string set with selected Credit Card type to check -ie ECCValidator::MAESTRO
@@ -118,6 +114,18 @@ class ECCValidator2 extends CValidator {
      * meaning that if the attribute is empty, it is considered invalid.
      */
     public $allowEmpty = false;
+
+    /**
+     * Where the images can be found
+     * @var string
+     */
+    public $assetsImages;
+
+    function __construct() {
+        $this->buildAllPatern();
+        $this->assetsImages = Yii::app()->assetManager->publish( __DIR__ . "/assets/img") . '/';
+    }
+    
 
     /**
      * (non-PHPdoc)
@@ -299,6 +307,14 @@ class ECCValidator2 extends CValidator {
         }
         $this->format = $tmp;
         return false;
+    }
+    
+    function getSmallImageTag($creditCardNumber) {
+        $type = $this->cardType($creditCardNumber);
+        if ($type === false) {
+            return '';
+        } 
+        return "<img src='" . $this->assetsImages . self::$cardSmallImages[$type] . "' />";
     }
 
 }

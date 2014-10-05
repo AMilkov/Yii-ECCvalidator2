@@ -9,6 +9,9 @@ Yii::createWebApplication($config);
 
 Yii::import("ext.ECCvalidator2.ECCValidator2");
 $test = new ECCValidator2;
+
+echo "Images can be found in: $test->assetsImages \n\n";
+
 echo "Original ALL matching pattern:\n" . $test->patterns[ECCValidator2::ALL] . "\n\n";
 
 // Test all supported formats as a custom pattern
