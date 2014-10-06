@@ -62,11 +62,10 @@ class ECCValidator2 extends CValidator {
         self::ALL => '/^(5[1-5][0-9]{14}|4[0-9]{12}([0-9]{3})?|3[47][0-9]{13}|3(0[0-5]|[68][0-9])[0-9]{11}|(6011\d{12}|65\d{14})|(3[0-9]{4}|2131|1800)[0-9]{11}|8699[0-9]{11}|(6334[5-9][0-9]|6767[0-9]{2})\d{10}(\d{2,3})?|(?:5020|6\d{3})\d{12}|(?:49(03(0[2-9]|3[5-9])|11(0[1-2]|7[4-9]|8[1-2])|36[0-9]{2})\d{10}(\d{2,3})?)|(?:564182\d{10}(\d{2,3})?)|(6(3(33[0-4][0-9])|759[0-9]{2})\d{10}(\d{2,3})?)|(?:417500|4026\d{2}|4917\d{2}|4913\d{2}|4508\d{2}|4844\d{2})\d{10}|(?:6304|6706|6771|6709)\d{12}(\d{2,3})?)$/'
     );
 
-    
-    // 2(?:014|149)\\d{11}
-    // 56(10\\d\\d|022[1-5])\\d{10}
-    
-    
+
+// 2(?:014|149)\\d{11}
+// 56(10\\d\\d|022[1-5])\\d{10}
+
     /**
      * 
      * @var array holds the indexes of the active cards that we want to work with
@@ -87,7 +86,6 @@ class ECCValidator2 extends CValidator {
 //        self::ELECTRON,
 //        self::LASER,
     ];
-
     public static $cardSmallImages = [
         self::MASTERCARD => 'master.png',
         self::VISA => 'visa.png',
@@ -123,9 +121,8 @@ class ECCValidator2 extends CValidator {
 
     function __construct() {
         $this->buildAllPatern();
-        $this->assetsImages = Yii::app()->assetManager->publish( __DIR__ . "/assets/img") . '/';
+        $this->assetsImages = Yii::app()->assetManager->publish(__DIR__ . "/assets/img") . '/';
     }
-    
 
     /**
      * (non-PHPdoc)
@@ -156,7 +153,7 @@ class ECCValidator2 extends CValidator {
         }
 
         $creditCardNumber = preg_replace('/[^\d]/', '', $creditCardNumber);
-        return $this->checkFormat($creditCardNumber) && $this->mod10($creditCardNumber);
+        return $this->checkFormat($creditCardNumber) && $this->luhnChk($creditCardNumber);
     }
 
     /**
@@ -217,30 +214,27 @@ class ECCValidator2 extends CValidator {
     }
 
     /**
+     * Super ultra fast Luhn Mod 10 algorithm implementation
      * 
-     * Check credit card number by Mod 10 algorithm
-     *
-     * @access  private
-     * @param   string   carNumber
-     * @return  boolean
+     * @param string $cardNumber The card number
+     * @return boolean 
      * @see     http://en.wikipedia.org/wiki/Luhn_algorithm#Mod_10.2B5_Variant
+     *      
      */
-    protected function mod10($cardNumber) {
-        $cardNumber = strrev($cardNumber);
-        $numSum = 0;
-        for ($i = 0; $i < strlen($cardNumber); $i++) {
-            $currentNum = substr($cardNumber, $i, 1);
-            if ($i % 2 == 1) {
-                $currentNum *= 2;
-            }
-            if ($currentNum > 9) {
-                $firstNum = $currentNum % 10;
-                $secondNum = ($currentNum - $firstNum) / 10;
-                $currentNum = $firstNum + $secondNum;
-            }
-            $numSum += $currentNum;
+    function luhnChk($cardNumber) {
+        $len = strlen($cardNumber);
+        $mul = 0;
+        $sum = 0;
+        $arrProd = [
+            [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            [0, 2, 4, 6, 8, 1, 3, 5, 7, 9]
+        ];
+
+        while ($len--) {
+            $sum += $arrProd[$mul][(int)$cardNumber[$len]];
+            $mul ^= 1;
         }
-        return ($numSum % 10 == 0);
+        return $sum % 10 === 0 && $sum > 0;
     }
 
     /**
@@ -308,7 +302,7 @@ class ECCValidator2 extends CValidator {
         $this->format = $tmp;
         return false;
     }
-    
+
     /**
      * Generate image tags from card number
      * @param string $creditCardNumber
@@ -318,7 +312,7 @@ class ECCValidator2 extends CValidator {
         $type = $this->cardType($creditCardNumber);
         if ($type === false) {
             return '';
-        } 
+        }
         return "<img src='" . $this->assetsImages . self::$cardSmallImages[$type] . "' />";
     }
 
@@ -330,7 +324,7 @@ class ECCValidator2 extends CValidator {
     function getSmallImageTagFromType($cardType) {
         if (empty($cardType)) {
             return '';
-        } 
+        }
         return "<img src='" . $this->assetsImages . self::$cardSmallImages[$cardType] . "' />";
     }
 

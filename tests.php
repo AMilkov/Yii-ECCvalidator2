@@ -55,20 +55,30 @@ $testCardNumbers = [
     'DC30121357924685' => ECCValidator2::DINERS_CLUB,
     '30569309025904' => ECCValidator2::DINERS_CLUB,
     '38520000023237' => ECCValidator2::DINERS_CLUB,
+    // Some wrong numbers
+    '38520000023238' => ECCValidator2::DINERS_CLUB,
+    'abcdefghijklmn' => ECCValidator2::DINERS_CLUB,
     
 ];
 
 $i=1;
-echo "Luhn number check tests:\n";
+echo "Ultra fast Luhn number check tests. Last 2 cards should fail.\n";
 foreach ($testCardNumbers as $cardNumber => $cardType) {
-    $test->format = $cardType;
-    echo "$i.\t" . ($test->validateNumber($cardNumber) === true ? "Passed: $cardNumber \t=> $cardType\n" : "Problem $cardNumber \t=> $cardType\n");
+    echo "$i.\t" . ($test->luhnChk($cardNumber) === true ? "Passed: $cardNumber \t=> $cardType\n" : "PROBLEM!!! $cardNumber \t=> $cardType\n");
     $i++;
 }
 
 $i=1;
-echo "\nCard type recognition tests:\n";
+echo "\nLuhn number check tests. Last 2 cards should fail.\n";
 foreach ($testCardNumbers as $cardNumber => $cardType) {
-    echo "$i.\t" . ($test->cardType($cardNumber) === $cardType ? "Passed: $cardType\n" : "Problem: $cardType\n");
+    $test->format = $cardType;
+    echo "$i.\t" . ($test->validateNumber($cardNumber) === true ? "Passed: $cardNumber \t=> $cardType\n" : "PROBLEM!!! $cardNumber \t=> $cardType\n");
+    $i++;
+}
+
+$i=1;
+echo "\nCard type recognition tests. Last 2 cards should fail.\n";
+foreach ($testCardNumbers as $cardNumber => $cardType) {
+    echo "$i.\t" . ($test->cardType($cardNumber) === $cardType ? "Passed: $cardType\n" : "PROBLEM!!! Unknown card type!\n");
     $i++;
 }
