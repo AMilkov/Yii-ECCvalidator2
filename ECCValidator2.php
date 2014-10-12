@@ -74,8 +74,8 @@ class ECCValidator2 extends CValidator {
      */
     public $activeCards = [
         self::MASTERCARD,
-        self::VISA,
         self::AMERICAN_EXPRESS,
+        self::VISA,
         self::DINERS_CLUB,
 //        self::DISCOVER,
 //        self::JCB,
