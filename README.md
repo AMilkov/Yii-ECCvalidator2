@@ -4,7 +4,7 @@ Yii-ECCvalidator2
 
 ## 1. Credit Card Validator
 ## 2. Credit Card type recognition
-## 3. Credit Card img tags creator
+## 3. Credit Card image tags creator
  
 The validator implements Mod 10 algorithm to validate a credit card number.  
 Also checks if its prefix and expiration date are correct.
