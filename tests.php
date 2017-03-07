@@ -1,7 +1,7 @@
 <?php
 
 // change the following paths if necessary
-$yiit = __DIR__ . '/../../../../../yii-1.1.15.022a51/framework/yiit.php';
+$yiit = __DIR__ . '/../../../../../yii-1.1.17.467ff50/framework/yiit.php';
 $config = __DIR__ . '/test_config.php';
 
 require_once($yiit);
@@ -48,28 +48,33 @@ $testCardNumbers = [
     '4222222222222' => ECCValidator2::VISA,
     '5499830000000015' => ECCValidator2::MASTERCARD,
     '5499830000000031' => ECCValidator2::MASTERCARD,
-    '5499830000000049' => ECCValidator2::MASTERCARD,    
-    '5555555555554444' => ECCValidator2::MASTERCARD,    
-    '5105105105105100' => ECCValidator2::MASTERCARD,    
+    '5499830000000049' => ECCValidator2::MASTERCARD,
+    '5555555555554444' => ECCValidator2::MASTERCARD,
+    '5105105105105100' => ECCValidator2::MASTERCARD,
     'DC30125647382919' => ECCValidator2::DINERS_CLUB,
     'DC30129182736455' => ECCValidator2::DINERS_CLUB,
     'DC30121357924685' => ECCValidator2::DINERS_CLUB,
     '30569309025904' => ECCValidator2::DINERS_CLUB,
     '38520000023237' => ECCValidator2::DINERS_CLUB,
+    '30569309025904' => ECCValidator2::DINERS_CLUB,
+    '38520000023237' => ECCValidator2::DINERS_CLUB,
+    '6011111111111117' => ECCValidator2::DISCOVER,
+    '6011000990139424' => ECCValidator2::DISCOVER,
+    '6759649826438453' => ECCValidator2::MAESTRO,
+    '6799990100000000019' => ECCValidator2::MAESTRO,
     // Some wrong numbers
-    '38520000023238' => ECCValidator2::DINERS_CLUB,
+    '3852000BAU-BAU' => ECCValidator2::DINERS_CLUB,
     'abcdefghijklmn' => ECCValidator2::DINERS_CLUB,
-    
 ];
 
-$i=1;
+$i = 1;
 echo "Ultra fast Luhn number check tests. Last 2 cards should fail.\n";
 foreach ($testCardNumbers as $cardNumber => $cardType) {
     echo "$i.\t" . ($test->luhnChk($cardNumber) === true ? "Passed: $cardNumber \t=> $cardType\n" : "PROBLEM!!! $cardNumber \t=> $cardType\n");
     $i++;
 }
 
-$i=1;
+$i = 1;
 echo "\nLuhn number check tests. Last 2 cards should fail.\n";
 foreach ($testCardNumbers as $cardNumber => $cardType) {
     $test->format = $cardType;
@@ -77,7 +82,7 @@ foreach ($testCardNumbers as $cardNumber => $cardType) {
     $i++;
 }
 
-$i=1;
+$i = 1;
 echo "\nCard type recognition tests. Last 2 cards should fail.\n";
 foreach ($testCardNumbers as $cardNumber => $cardType) {
     echo "$i.\t" . ($test->cardType($cardNumber) === $cardType ? "Passed: $cardType\n" : "PROBLEM!!! Unknown card type!\n");
