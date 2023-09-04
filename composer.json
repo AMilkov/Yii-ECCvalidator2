@@ -1,0 +1,18 @@
+{
+    "repositories": [
+        {
+            "type": "library",
+            "package": {
+                "name": "AMilkov/Yii-ECCvalidator2",
+                "version": "1.2",
+                "source": {
+                    "url": "https://github.com/AMilkov/Yii-ECCvalidator2.git",
+                    "type": "git",
+                },
+                "autoload": {
+                    "classmap": ["ECCValidator2.php"]
+                }
+            }
+        }
+    ]
+}
